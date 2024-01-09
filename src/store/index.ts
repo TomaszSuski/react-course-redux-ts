@@ -1,5 +1,9 @@
 import { createStore } from "redux";
 
+export interface CounterState {
+  counter: number;
+}
+
 type Actions = { type: "INCREMENT" } | { type: "DECREMENT" };
 
 const counterReducer = (state = { counter: 0 }, action: Actions) => {
