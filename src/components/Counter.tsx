@@ -31,10 +31,10 @@ class Counter extends Component<CounterProps> {
         <h1>Redux Counter</h1>
         <div className={classes.value}>{this.props.counter}</div>
         <div>
-          <button onClick={this.decrementHandler}>Decrement</button>
-          <button onClick={this.incrementHandler}>Increment</button>
+          <button onClick={this.decrementHandler.bind(this)}>Decrement</button>
+          <button onClick={this.incrementHandler.bind(this)}>Increment</button>
         </div>
-        <button onClick={this.toggleCounterHandler}>Toggle Counter</button>
+        <button onClick={this.toggleCounterHandler.bind(this)}>Toggle Counter</button>
       </main>
     );
   }
