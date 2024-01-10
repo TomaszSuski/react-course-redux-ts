@@ -7,6 +7,7 @@ type Dispatch = (action: Actions) => void;
 
 export interface CounterProps {
   counter: number;
+  showCounter: boolean;
   increment: () => void;
   decrement: () => void;
   toggleCounter: () => void;
@@ -39,7 +40,9 @@ class Counter extends Component<CounterProps> {
     return (
       <main className={classes.counter}>
         <h1>Redux Counter</h1>
-        <div className={classes.value}>{this.props.counter}</div>
+        {this.props.showCounter && (
+          <div className={classes.value}>{this.props.counter}</div>
+        )}
         <div>
           <button onClick={this.decreaseHandler.bind(this)}>
             Decrease by 5
@@ -70,6 +73,7 @@ class Counter extends Component<CounterProps> {
 const mapStateToProps = (state: CounterState) => {
   return {
     counter: state.counter,
+    showCounter: state.showCounter,
   };
 };
 
@@ -93,6 +97,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 export const CounterAsFC = () => {
   // useSelector pozwala na pobranie stanu z redux store
   const counter = useSelector((state: CounterState) => state.counter);
+  const show = useSelector((state: CounterState) => state.showCounter);
   // useDispatch pozwala na wywołanie akcji w redux store
   const dispatch = useDispatch();
 
@@ -112,12 +117,14 @@ export const CounterAsFC = () => {
     dispatch({ type: "DECREASE", payload: 5 });
   };
 
-  const toggleCounterHandler = () => {};
+  const toggleCounterHandler = () => {
+    dispatch({ type: "TOGGLE" });
+  };
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
-      <div className={classes.value}>{counter}</div>
+      {show && <div className={classes.value}>{counter}</div>}
       <div>
         <button onClick={decreaseHandler}>Decrease by 5</button>
         <button onClick={decrementHandler}>Decrement</button>
