@@ -34,6 +34,7 @@ const counterSlice = createSlice({
     decrement(state) {
       state.counter--;
     },
+    // payload jest domyślnym i jedynym kluczem do przekazania danych do akcji w createSlice
     increaseByNumber(state, action: { payload: number }) {
       state.counter += action.payload;
     },

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
-import { ActionsType, CounterStateType, counterDispatchType,  counterActions } from "../store";
+import { CounterStateType, counterDispatchType,  counterActions } from "../store";
 import classes from "./Counter.module.css";
-
-type Dispatch = (action: ActionsType) => void;
 
 export interface CounterProps {
   counter: number;
@@ -94,7 +92,7 @@ const mapDispatchToProps = (dispatch: counterDispatchType) => {
     increment: () => dispatch(counterActions.increment()),
     decrement: () => dispatch(counterActions.decrement()),
     toggleCounter: () => dispatch(counterActions.toggle()),
-    increase: () => dispatch(counterActions.increaseByNumber(5)),
+    increase: () => dispatch(counterActions.increaseByNumber(5)), // { type: SOME_UNIQUE_IDENTIFIER, payload: 5 }
     decrease: () => dispatch(counterActions.decreaseByNumber(5)),
   };
 };
