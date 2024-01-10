@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
-import { Actions, CounterState } from "../store";
+import { ActionsType, CounterStateType, counterDispatchType,  counterActions } from "../store";
 import classes from "./Counter.module.css";
 
-type Dispatch = (action: Actions) => void;
+type Dispatch = (action: ActionsType) => void;
 
 export interface CounterProps {
   counter: number;
@@ -70,7 +70,7 @@ class Counter extends Component<CounterProps> {
 // funkcja mapStateToProps pobiera stan z redux store i zwraca obiekt, który
 // jest przekazywany do komponentu jako propsy. W tym przypadku komponent
 // Counter otrzyma props counter, który będzie zawierał stan z redux store.
-const mapStateToProps = (state: CounterState) => {
+const mapStateToProps = (state: CounterStateType) => {
   return {
     counter: state.counter,
     showCounter: state.showCounter,
@@ -81,13 +81,21 @@ const mapStateToProps = (state: CounterState) => {
 // który jest przekazywany do komponentu jako propsy. W tym przypadku komponent
 // Counter otrzyma propsy increment, decrement i toggleCounter, które będą
 // funkcjami, które wywołują odpowiednie akcje w redux store.
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: counterDispatchType) => {
   return {
-    increment: () => dispatch({ type: "INCREMENT" }),
-    decrement: () => dispatch({ type: "DECREMENT" }),
-    toggleCounter: () => dispatch({ type: "TOGGLE" }),
-    increase: () => dispatch({ type: "INCREASE_BY_NUMBER", payload: 5 }),
-    decrease: () => dispatch({ type: "DECREASE_BY_NUMBER", payload: 5 }),
+    // użycie akcji w redux store
+    // increment: () => dispatch({ type: "INCREMENT" }),
+    // decrement: () => dispatch({ type: "DECREMENT" }),
+    // toggleCounter: () => dispatch({ type: "TOGGLE" }),
+    // increase: () => dispatch({ type: "INCREASE_BY_NUMBER", payload: 5 }),
+    // decrease: () => dispatch({ type: "DECREASE_BY_NUMBER", payload: 5 }),
+
+    // użycie akcji w redux-toolkit
+    increment: () => dispatch(counterActions.increment()),
+    decrement: () => dispatch(counterActions.decrement()),
+    toggleCounter: () => dispatch(counterActions.toggle()),
+    increase: () => dispatch(counterActions.increaseByNumber(5)),
+    decrease: () => dispatch(counterActions.decreaseByNumber(5)),
   };
 };
 
@@ -96,29 +104,50 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 // original Counter component as function
 export const CounterAsFC = () => {
   // useSelector pozwala na pobranie stanu z redux store
-  const counter = useSelector((state: CounterState) => state.counter);
-  const show = useSelector((state: CounterState) => state.showCounter);
+  const counter = useSelector((state: CounterStateType) => state.counter);
+  const show = useSelector((state: CounterStateType) => state.showCounter);
   // useDispatch pozwala na wywołanie akcji w redux store
   const dispatch = useDispatch();
 
+  // użycie dispatch do wywołania akcji w redux store
+  // const incrementHandler = () => {
+  //   dispatch({ type: "INCREMENT" });
+  // };
+  // const decrementHandler = () => {
+  //   dispatch({ type: "DECREMENT" });
+  // };
+
+  // const increaseHandler = () => {
+  //   dispatch({ type: "INCREASE", payload: 5 });
+  // };
+
+  // const decreaseHandler = () => {
+  //   dispatch({ type: "DECREASE", payload: 5 });
+  // };
+
+  // const toggleCounterHandler = () => {
+  //   dispatch({ type: "TOGGLE" });
+  // };
+
+  // użycie dispatch do wywołania akcji w redux-toolkit
   const incrementHandler = () => {
-    dispatch({ type: "INCREMENT" });
+    dispatch(counterActions.increment());
   };
 
   const decrementHandler = () => {
-    dispatch({ type: "DECREMENT" });
+    dispatch(counterActions.decrement());
   };
 
   const increaseHandler = () => {
-    dispatch({ type: "INCREASE", payload: 5 });
+    dispatch(counterActions.increaseByNumber(5));
   };
 
   const decreaseHandler = () => {
-    dispatch({ type: "DECREASE", payload: 5 });
+    dispatch(counterActions.decreaseByNumber(5));
   };
-
+  
   const toggleCounterHandler = () => {
-    dispatch({ type: "TOGGLE" });
+    dispatch(counterActions.toggle());
   };
 
   return (

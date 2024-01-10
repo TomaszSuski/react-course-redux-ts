@@ -2,19 +2,22 @@
 // import { createStore } from "redux";
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-export interface CounterState {
+export interface CounterStateType {
   counter: number;
   showCounter: boolean;
 }
 
-export type Actions =
+export type ActionsType =
   | { type: "INCREMENT" }
   | { type: "DECREMENT" }
   | { type: "TOGGLE" }
   | { type: "INCREASE_BY_NUMBER"; payload: number }
   | { type: "DECREASE_BY_NUMBER"; payload: number };
 
-const initialState: CounterState = { counter: 0, showCounter: true };
+
+  export type counterDispatchType = typeof store.dispatch;
+
+const initialState: CounterStateType = { counter: 0, showCounter: true };
 
 // createSlice automatycznie generuje akcje i reducery
 // nie trzeba pisać switcha
@@ -54,6 +57,9 @@ const store = configureStore({
   // dla jednego reducera można podać bezpośrednio reducer
   reducer: counterSlice.reducer,
 });
+
+// dostep do akcji automatycznie generowanych przez createSlice
+export const counterActions = counterSlice.actions;
 
 export default store;
 
