@@ -4,7 +4,10 @@ export interface CounterState {
   counter: number;
 }
 
-type Actions = { type: "INCREMENT" } | { type: "DECREMENT" };
+export type Actions =
+  | { type: "INCREMENT" }
+  | { type: "DECREMENT" }
+  | { type: "TOGGLE" };
 
 const counterReducer = (state = { counter: 0 }, action: Actions) => {
   switch (action.type) {
