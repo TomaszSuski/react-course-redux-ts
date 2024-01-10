@@ -10,6 +10,8 @@ export interface CounterProps {
   increment: () => void;
   decrement: () => void;
   toggleCounter: () => void;
+  increase: () => void;
+  decrease: () => void;
 }
 
 class Counter extends Component<CounterProps> {
@@ -19,6 +21,14 @@ class Counter extends Component<CounterProps> {
 
   decrementHandler = () => {
     this.props.decrement();
+  };
+
+  increaseHandler = () => {
+    this.props.increase();
+  };
+
+  decreaseHandler = () => {
+    this.props.decrease();
   };
 
   toggleCounterHandler = () => {
@@ -31,10 +41,18 @@ class Counter extends Component<CounterProps> {
         <h1>Redux Counter</h1>
         <div className={classes.value}>{this.props.counter}</div>
         <div>
+          <button onClick={this.decreaseHandler.bind(this)}>
+            Decrease by 5
+          </button>
           <button onClick={this.decrementHandler.bind(this)}>Decrement</button>
           <button onClick={this.incrementHandler.bind(this)}>Increment</button>
+          <button onClick={this.increaseHandler.bind(this)}>
+            Increase by 5
+          </button>
         </div>
-        <button onClick={this.toggleCounterHandler.bind(this)}>Toggle Counter</button>
+        <button onClick={this.toggleCounterHandler.bind(this)}>
+          Toggle Counter
+        </button>
       </main>
     );
   }
@@ -64,6 +82,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     increment: () => dispatch({ type: "INCREMENT" }),
     decrement: () => dispatch({ type: "DECREMENT" }),
     toggleCounter: () => dispatch({ type: "TOGGLE" }),
+    increase: () => dispatch({ type: "INCREASE_BY_NUMBER", payload: 5 }),
+    decrease: () => dispatch({ type: "DECREASE_BY_NUMBER", payload: 5 }),
   };
 };
 
@@ -84,6 +104,14 @@ export const CounterAsFC = () => {
     dispatch({ type: "DECREMENT" });
   };
 
+  const increaseHandler = () => {
+    dispatch({ type: "INCREASE", payload: 5 });
+  };
+
+  const decreaseHandler = () => {
+    dispatch({ type: "DECREASE", payload: 5 });
+  };
+
   const toggleCounterHandler = () => {};
 
   return (
@@ -91,8 +119,10 @@ export const CounterAsFC = () => {
       <h1>Redux Counter</h1>
       <div className={classes.value}>{counter}</div>
       <div>
+        <button onClick={decreaseHandler}>Decrease by 5</button>
         <button onClick={decrementHandler}>Decrement</button>
         <button onClick={incrementHandler}>Increment</button>
+        <button onClick={increaseHandler}>Increase by 5</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>
     </main>
