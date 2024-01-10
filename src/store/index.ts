@@ -1,5 +1,6 @@
-import { createStore } from "redux";
-import { createSlice } from "@reduxjs/toolkit";
+// not using redux standalone anymore, but redux-toolkit
+// import { createStore } from "redux";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 export interface CounterState {
   counter: number;
@@ -13,7 +14,6 @@ export type Actions =
   | { type: "INCREASE_BY_NUMBER"; payload: number }
   | { type: "DECREASE_BY_NUMBER"; payload: number };
 
-
 const initialState: CounterState = { counter: 0, showCounter: true };
 
 // createSlice automatycznie generuje akcje i reducery
@@ -21,7 +21,7 @@ const initialState: CounterState = { counter: 0, showCounter: true };
 // przy pracy z redux-toolkit nie da się przypadkowo zmodyfikować stanu
 // więc zapis jak poniżej zawsze zaowocuje nowym stanem
 // toolkit zadba o klonowanie stanu i nie będzie modyfikował go bezpośrednio
-createSlice({
+const counterSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -42,6 +42,23 @@ createSlice({
     },
   },
 });
+
+// configureStore automatycznie generuje store
+// przyjmuje obiekt z reducerami
+const store = configureStore({
+  // reducery, jeśli jest więcej niz jeden, to trzeba je podać jako obiekt
+  // klucze są dowolne, ale muszą być unikalne
+  // wartościami są reducery
+  // reducer: { counter: counterSlice.reducer },
+
+  // dla jednego reducera można podać bezpośrednio reducer
+  reducer: counterSlice.reducer,
+});
+
+export default store;
+
+/*
+old way using redux only and reducer function
 
 const counterReducer = (
   state = initialState,
@@ -74,4 +91,4 @@ const counterReducer = (
 
 const store = createStore(counterReducer);
 
-export default store;
+*/
