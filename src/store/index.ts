@@ -18,6 +18,8 @@ const counterReducer = (
 ) => {
   switch (action.type) {
     case "INCREMENT":
+      // przy pracy z obiektami czy tablicami, nie można modyfikować stanu, tylko zwracać nowy
+      // to bardzo ważna zasada pracy z Reduxem
       return { counter: state.counter + 1, showCounter: state.showCounter };
     case "DECREMENT":
       return { counter: state.counter - 1, showCounter: state.showCounter };
