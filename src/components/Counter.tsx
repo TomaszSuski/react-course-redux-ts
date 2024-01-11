@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
-import { counterDispatchType, counterActions } from "../store";
+import { counterDispatchType } from "../store";
+import { counterActions } from "../store/counter-slice";
 import classes from "./Counter.module.css";
 
 // przy wielu slices w redux store, stan z każdego slice jest dostępny

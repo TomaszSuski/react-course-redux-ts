@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Auth from "./components/Auth";
 import { useSelector } from "react-redux";
 import UserProfile from "./components/UserProfile";
-import { AuthState } from "./store";
+import { AuthState } from "./store/auth-slice";
 
 function App() {
   const isAuthenticated = useSelector(
