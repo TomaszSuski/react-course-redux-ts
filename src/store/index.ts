@@ -14,10 +14,9 @@ export type ActionsType =
   | { type: "INCREASE_BY_NUMBER"; payload: number }
   | { type: "DECREASE_BY_NUMBER"; payload: number };
 
+export type counterDispatchType = typeof store.dispatch;
 
-  export type counterDispatchType = typeof store.dispatch;
-
-const initialState: CounterStateType = { counter: 0, showCounter: true };
+const initialCounterState: CounterStateType = { counter: 0, showCounter: true };
 
 // createSlice automatycznie generuje akcje i reducery
 // nie trzeba pisać switcha
@@ -26,7 +25,7 @@ const initialState: CounterStateType = { counter: 0, showCounter: true };
 // toolkit zadba o klonowanie stanu i nie będzie modyfikował go bezpośrednio
 const counterSlice = createSlice({
   name: "counter",
-  initialState,
+  initialState: initialCounterState,
   reducers: {
     increment(state) {
       state.counter++;
@@ -47,16 +46,45 @@ const counterSlice = createSlice({
   },
 });
 
+// dodatkowe slices
+
+export interface AuthState {
+  auth: {
+    isAuthenticated: boolean;
+  };
+}
+
+export interface AuthStateType {
+  isAuthenticated: boolean;
+}
+
+const initialAuthState = { isAuthenticated: false };
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState: initialAuthState,
+  reducers: {
+    login(state) {
+      state.isAuthenticated = true;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+    },
+  },
+});
+
+export const authActions = authSlice.actions;
+
 // configureStore automatycznie generuje store
 // przyjmuje obiekt z reducerami
 const store = configureStore({
   // reducery, jeśli jest więcej niz jeden, to trzeba je podać jako obiekt
   // klucze są dowolne, ale muszą być unikalne
   // wartościami są reducery
-  // reducer: { counter: counterSlice.reducer },
+  reducer: { counter: counterSlice.reducer, auth: authSlice.reducer },
 
   // dla jednego reducera można podać bezpośrednio reducer
-  reducer: counterSlice.reducer,
+  // reducer: counterSlice.reducer,
 });
 
 // dostep do akcji automatycznie generowanych przez createSlice
@@ -69,7 +97,7 @@ old way using redux only and reducer function
 
 const counterReducer = (
   state = initialState,
-  action: Actions
+  action: ActionsType
 ) => {
  
   switch (action.type) {

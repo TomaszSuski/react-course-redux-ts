@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
-import { CounterStateType, counterDispatchType,  counterActions } from "../store";
+import { counterDispatchType, counterActions } from "../store";
 import classes from "./Counter.module.css";
+
+// przy wielu slices w redux store, stan z każdego slice jest dostępny
+// pod kluczem odpowiadającym kluczowi slice w redux store reducerze
+export interface CounterState {
+  counter: {
+    counter: number;
+    showCounter: boolean;
+  };
+}
 
 export interface CounterProps {
   counter: number;
@@ -68,10 +77,10 @@ class Counter extends Component<CounterProps> {
 // funkcja mapStateToProps pobiera stan z redux store i zwraca obiekt, który
 // jest przekazywany do komponentu jako propsy. W tym przypadku komponent
 // Counter otrzyma props counter, który będzie zawierał stan z redux store.
-const mapStateToProps = (state: CounterStateType) => {
+const mapStateToProps = (state: CounterState) => {
   return {
-    counter: state.counter,
-    showCounter: state.showCounter,
+    counter: state.counter.counter,
+    showCounter: state.counter.showCounter,
   };
 };
 
@@ -102,8 +111,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 // original Counter component as function
 export const CounterAsFC = () => {
   // useSelector pozwala na pobranie stanu z redux store
-  const counter = useSelector((state: CounterStateType) => state.counter);
-  const show = useSelector((state: CounterStateType) => state.showCounter);
+  const counter = useSelector((state: CounterState) => state.counter.counter);
+  const show = useSelector((state: CounterState) => state.counter.showCounter);
   // useDispatch pozwala na wywołanie akcji w redux store
   const dispatch = useDispatch();
 
@@ -143,7 +152,7 @@ export const CounterAsFC = () => {
   const decreaseHandler = () => {
     dispatch(counterActions.decreaseByNumber(5));
   };
-  
+
   const toggleCounterHandler = () => {
     dispatch(counterActions.toggle());
   };
