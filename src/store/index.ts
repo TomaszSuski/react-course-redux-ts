@@ -1,8 +1,9 @@
 // not using redux standalone anymore, but redux-toolkit
 // import { createStore } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./counter-slice";
-import authSlice from "./auth-slice";
+// as slices files default exports are reducers, we can import them as reducers
+import counterReducer from "./counter-slice";
+import authReducer from "./auth-slice";
 
 // configureStore automatycznie generuje store
 // przyjmuje obiekt z reducerami
@@ -10,7 +11,7 @@ const store = configureStore({
   // reducery, jeśli jest więcej niz jeden, to trzeba je podać jako obiekt
   // klucze są dowolne, ale muszą być unikalne
   // wartościami są reducery
-  reducer: { counter: counterSlice, auth: authSlice },
+  reducer: { counter: counterReducer, auth: authReducer },
 
   // dla jednego reducera można podać bezpośrednio reducer
   // reducer: counterSlice.reducer,
